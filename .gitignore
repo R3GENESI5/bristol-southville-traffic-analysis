@@ -1,0 +1,22 @@
+# Output reports (keep only executive report)
+*.docx
+SBLN_Traffic_Data_Analysis_Report*.pdf
+SBLN_Internal_Working_Document*
+
+# Archive
+charts_archive/
+archive/old_reports/
+
+# Old versions
+SBLN_Traffic_Data_Analysis_Report.md
+
+# Matt's maps and data are now included in the repo
+
+# Misc
+*.zip
+images/
+__pycache__/
+*.pyc
+.DS_Store
+reference/
+.claude/
