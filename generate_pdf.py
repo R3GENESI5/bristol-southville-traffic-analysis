@@ -794,13 +794,14 @@ story.append(HRFlowable(width="100%", thickness=1, color=ACCENT_BLUE, spaceAfter
 if HEADLINE_ONLY:
     story.append(Paragraph(
         "<i>This analysis is based on the publicly available \"SBLN Traffic Survey Results 2024\" dataset. "
-        "All calculations are reproducible from the original data sources.</i>", styles['Footer']))
+        "All calculations are reproducible from the original data sources.<br/>"
+        "Analysis code: github.com/R3GENESI5/bristol-southville-traffic-analysis</i>", styles['Footer']))
 else:
     story.append(Paragraph(
         "<i>This analysis is based on the publicly available \"SBLN Traffic Survey Results 2024\" dataset "
         "and Census 2021 ward-level data from the Office for National Statistics. Trip generation rates "
         "are derived from published TRICS research. All calculations are reproducible from the original "
-        "data sources.</i>", styles['Footer']))
+        "data sources.<br/>Analysis code: github.com/R3GENESI5/bristol-southville-traffic-analysis</i>", styles['Footer']))
 
 # ── Build ────────────────────────────────────────────────
 doc.build(story, onFirstPage=add_page_number, onLaterPages=add_page_number)

@@ -846,6 +846,12 @@ p = doc.add_paragraph()
 run = p.add_run("Total: 95 files (94 spreadsheets + 1 KML coordinate file)")
 run.bold = True
 
+page_break()
+doc.add_paragraph(
+    "Analysis code and methodology are publicly available at: "
+    "github.com/R3GENESI5/bristol-southville-traffic-analysis"
+).runs[0].italic = True
+
 # ── Save ──
 doc.save(OUTPUT)
 print(f"Document saved to: {OUTPUT}")

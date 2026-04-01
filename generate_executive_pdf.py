@@ -569,7 +569,8 @@ story.append(Paragraph(
 story.append(Spacer(1, 10*mm))
 story.append(Paragraph(
     "<i>This report presents factual analysis of publicly available data. It does not make "
-    "policy recommendations. All calculations are reproducible from the original spreadsheets.</i>",
+    "policy recommendations. All calculations are reproducible from the original spreadsheets.<br/>"
+    "Analysis code: github.com/R3GENESI5/bristol-southville-traffic-analysis</i>",
     styles['Footer']))
 
 
