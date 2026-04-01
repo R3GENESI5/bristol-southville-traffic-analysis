@@ -1,6 +1,7 @@
 # Independent Analysis of the SBLN 2024 Traffic Survey Data
 
 **Author:** Ali Bin Shahid, Volunteer Data Analyst & Systems Engineer
+**Completed:** 1 April 2026
 
 ![ANPR Traffic Flows](charts/chart12_flow_map.png)
 
@@ -36,21 +37,9 @@ The raw data is publicly available from Bristol City Council and is not included
 ├── generate_all_maps.py        # Sensor location maps (5 maps)
 ├── generate_flow_map_routed.py # OSRM road-routed ANPR flow map
 ├── generate_analysis_map.py    # Comprehensive analysis map (all layers)
-├── generate_pdf.py             # Full analysis report (PDF)
-├── generate_executive_pdf.py   # Executive summary report (PDF)
-├── generate_docx.py            # Internal working document (DOCX)
-├── generate_additional_charts.py # Bus/cyclist charts (supplementary)
 ├── charts/                     # Generated chart images
-└── data/                       # Source data (not included, see below)
-```
-
-### Superseded Scripts (kept for reference)
-```
-├── generate_map.py             # Original sensor map (replaced by generate_all_maps.py)
-├── generate_charts.py          # Original 6 charts (replaced by generate_all_charts.py)
-├── generate_new_charts.py      # Charts 10-13 (merged into generate_all_charts.py)
-├── fix_all.py                  # One-off fixes (no longer needed)
-├── fix_charts.py               # One-off fixes (no longer needed)
+├── maps/                       # Sensor location maps (Matt Sanders)
+└── archive/old_code/           # Superseded scripts (kept for reference)
 ```
 
 ## How to Reproduce
@@ -58,7 +47,7 @@ The raw data is publicly available from Bristol City Council and is not included
 ### Prerequisites
 
 ```bash
-pip install matplotlib numpy contextily requests reportlab openpyxl python-docx
+pip install matplotlib numpy contextily requests
 ```
 
 ### Generate All Charts
@@ -86,27 +75,15 @@ python generate_analysis_map.py     # Comprehensive analysis map
 
 Note: The flow map and analysis map require internet access (OSRM routing API and CartoDB map tiles).
 
-### Generate Reports
-
-```bash
-python generate_pdf.py              # Full analysis report
-python generate_pdf.py --headline   # Headline version (no trip generation)
-python generate_executive_pdf.py    # Executive summary (10 pages)
-python generate_docx.py             # Internal working document
-```
-
 ## Data Files Required
 
-Place the survey data in `data/SBLN 2024 Traffic Survey Results/` with this structure:
+Download the survey data from Bristol City Council (link above) and place in `data/SBLN 2024 Traffic Survey Results/` with this structure:
 
 ```
 data/SBLN 2024 Traffic Survey Results/
 ├── ANPR surveys/           # 6 files (OD matrices, sample rates, trip chains)
 ├── ATC surveys/            # 22 files (Sites 1-22, volume + speed)
-├── JTC surveys/            # 22 files (11 sites x 2 days)
-├── Bus Stop counts/        # 19 files (boarding/alighting)
-├── JTC Queue length surveys/ # 22 files
-└── MCC surveys/            # 4 files (vehicle classification + cycles)
+└── JTC surveys/            # 22 files (11 sites x 2 days)
 ```
 
 ## Camera Coordinates
