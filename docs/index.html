@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SBLN Traffic Data Analysis — Independent Report</title>
+    <meta name="description" content="Independent analysis of Bristol City Council's SBLN 2024 Traffic Survey data. Only 0.07% of traffic detected crossing the Southville Zone.">
+    <meta property="og:title" content="SBLN Traffic Data Analysis">
+    <meta property="og:description" content="The survey data does not support claims of cut-through traffic in Southville. Only 10-11 vehicles per day (0.07%) detected at both boundary cameras.">
+    <meta property="og:image" content="https://raw.githubusercontent.com/R3GENESI5/bristol-southville-traffic-analysis/master/charts/chart12_flow_map.png">
+    <meta property="og:type" content="article">
+    <meta name="twitter:card" content="summary_large_image">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0f1b2d;
+            color: #e2e8f0;
+            line-height: 1.6;
+        }
+
+        /* Hero */
+        .hero {
+            position: relative;
+            width: 100%;
+            min-height: 90vh;
+            display: flex;
+            align-items: flex-end;
+            overflow: hidden;
+        }
+        .hero img {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 30%;
+        }
+        .hero-overlay {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            padding: 60px 40px 40px;
+            background: linear-gradient(transparent, rgba(15,27,45,0.95) 40%);
+        }
+        .hero h1 {
+            font-size: clamp(1.8rem, 4vw, 3rem);
+            font-weight: 800;
+            color: #fff;
+            line-height: 1.2;
+            max-width: 700px;
+        }
+        .hero .subtitle {
+            margin-top: 12px;
+            font-size: 1rem;
+            color: #90cdf4;
+        }
+        .stat-badge {
+            display: inline-block;
+            margin-top: 24px;
+            padding: 16px 32px;
+            background: rgba(229, 62, 62, 0.15);
+            border: 2px solid #e53e3e;
+            border-radius: 12px;
+        }
+        .stat-badge .number {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 900;
+            color: #e53e3e;
+            line-height: 1;
+        }
+        .stat-badge .label {
+            font-size: 0.9rem;
+            color: #fc8181;
+            margin-top: 4px;
+        }
+
+        /* Content sections */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .key-finding {
+            margin: 60px auto;
+            max-width: 800px;
+            padding: 32px;
+            background: rgba(254, 243, 199, 0.08);
+            border-left: 4px solid #d69e2e;
+            border-radius: 0 12px 12px 0;
+        }
+        .key-finding h2 {
+            font-size: 1.1rem;
+            color: #d69e2e;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .key-finding p {
+            font-size: 1.05rem;
+            color: #e2e8f0;
+        }
+        .key-finding strong {
+            color: #fff;
+        }
+
+        /* Evidence grid */
+        .evidence {
+            margin: 60px auto;
+            max-width: 900px;
+            padding: 0 24px;
+        }
+        .evidence h2 {
+            font-size: 1.5rem;
+            color: #90cdf4;
+            margin-bottom: 32px;
+            text-align: center;
+        }
+        .evidence-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .evidence-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            padding: 24px;
+            transition: border-color 0.2s;
+        }
+        .evidence-card:hover {
+            border-color: rgba(144, 205, 244, 0.3);
+        }
+        .evidence-card .num {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #3182ce;
+            line-height: 1;
+        }
+        .evidence-card .num.red { color: #e53e3e; }
+        .evidence-card .desc {
+            margin-top: 8px;
+            font-size: 0.9rem;
+            color: #a0aec0;
+        }
+
+        /* Charts */
+        .charts {
+            margin: 60px auto;
+            max-width: 900px;
+            padding: 0 24px;
+        }
+        .charts h2 {
+            font-size: 1.5rem;
+            color: #90cdf4;
+            margin-bottom: 32px;
+            text-align: center;
+        }
+        .chart-item {
+            margin-bottom: 40px;
+        }
+        .chart-item img {
+            width: 100%;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+        .chart-item .caption {
+            margin-top: 8px;
+            font-size: 0.85rem;
+            color: #718096;
+            text-align: center;
+            font-style: italic;
+        }
+
+        /* Download */
+        .download {
+            margin: 80px auto;
+            max-width: 800px;
+            padding: 40px 24px;
+            text-align: center;
+        }
+        .download h2 {
+            font-size: 1.5rem;
+            color: #fff;
+            margin-bottom: 16px;
+        }
+        .download p {
+            color: #a0aec0;
+            margin-bottom: 32px;
+        }
+        .btn-group {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .btn {
+            display: inline-block;
+            padding: 14px 28px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+        }
+        .btn-primary {
+            background: #3182ce;
+            color: #fff;
+        }
+        .btn-secondary {
+            background: rgba(255,255,255,0.08);
+            color: #90cdf4;
+            border: 1px solid rgba(144,205,244,0.3);
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 40px;
+            padding: 40px 24px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            text-align: center;
+            color: #4a5568;
+            font-size: 0.85rem;
+        }
+        footer a {
+            color: #718096;
+            text-decoration: none;
+        }
+        footer a:hover {
+            color: #90cdf4;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Hero -->
+<section class="hero">
+    <img src="https://raw.githubusercontent.com/R3GENESI5/bristol-southville-traffic-analysis/master/charts/chart12_flow_map.png"
+         alt="ANPR traffic flow map showing vehicles flowing around Southville, not through it">
+    <div class="hero-overlay">
+        <div class="container">
+            <h1>Independent Analysis of the South Bristol Liveable Neighbourhoods Traffic Survey Data</h1>
+            <p class="subtitle">Ali Bin Shahid &middot; April 2026 &middot; Based on SBLN 2024 Traffic Survey Results</p>
+            <div class="stat-badge">
+                <div class="number">0.07%</div>
+                <div class="label">cross-zone traffic detected</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Key Finding -->
+<div class="container">
+    <div class="key-finding">
+        <h2>Key Finding</h2>
+        <p>The survey data does not contain evidence sufficient to demonstrate that vehicles are using
+        Southville's residential streets as a cut-through between Coronation Road and North Street.
+        The ANPR camera network had <strong>no cameras placed within the Southville zone</strong>.
+        The two nearest cameras recorded only <strong>10-11 vehicles per day</strong> appearing at
+        both locations, representing approximately <strong>0.07-0.14%</strong> of the traffic at those cameras.</p>
+    </div>
+</div>
+
+<!-- Evidence -->
+<section class="evidence">
+    <h2>The Numbers</h2>
+    <div class="evidence-grid">
+        <div class="evidence-card">
+            <div class="num">25</div>
+            <div class="desc">ANPR cameras deployed across South Bristol. None within the Southville Zone.</div>
+        </div>
+        <div class="evidence-card">
+            <div class="num">15,092</div>
+            <div class="desc">vehicles detected at Camera 14 (Coronation Road) on 11 June 2024.</div>
+        </div>
+        <div class="evidence-card">
+            <div class="num red">11</div>
+            <div class="desc">vehicles detected at both Camera 14 and Camera 16. That's the entire cross-zone count.</div>
+        </div>
+        <div class="evidence-card">
+            <div class="num">90%</div>
+            <div class="desc">of Camera 14 traffic went to Camera 1 (Clift House Road) &mdash; along the corridor, not through Southville.</div>
+        </div>
+        <div class="evidence-card">
+            <div class="num">45%</div>
+            <div class="desc">of Camera 16 traffic also went to Clift House Road &mdash; along the perimeter of the Southville Zone.</div>
+        </div>
+        <div class="evidence-card">
+            <div class="num">94%</div>
+            <div class="desc">of Luckwell Road traffic can be explained by local residential demand, schools, deliveries, and visitors.</div>
+        </div>
+    </div>
+</section>
+
+<!-- Charts -->
+<section class="charts">
+    <h2>Visual Evidence</h2>
+
+    <div class="chart-item">
+        <img src="https://raw.githubusercontent.com/R3GENESI5/bristol-southville-traffic-analysis/master/charts/chart2_context.png"
+             alt="Pie charts showing cross-zone detections as fraction of total traffic"
+             loading="lazy">
+        <div class="caption">Cross-zone detections as a fraction of total camera traffic. The red slices are so small they are barely visible.</div>
+    </div>
+
+    <div class="chart-item">
+        <img src="https://raw.githubusercontent.com/R3GENESI5/bristol-southville-traffic-analysis/master/charts/chart3_cam14_destinations.png"
+             alt="Camera 14 destination breakdown"
+             loading="lazy">
+        <div class="caption">Where Camera 14 traffic actually goes. 90% travelled to Clift House Road along the corridor.</div>
+    </div>
+
+    <div class="chart-item">
+        <img src="https://raw.githubusercontent.com/R3GENESI5/bristol-southville-traffic-analysis/master/charts/chart3b_cam16_destinations.png"
+             alt="Camera 16 destination breakdown"
+             loading="lazy">
+        <div class="caption">Where Camera 16 traffic actually goes. 45% went to Clift House Road along the perimeter.</div>
+    </div>
+
+    <div class="chart-item">
+        <img src="https://raw.githubusercontent.com/R3GENESI5/bristol-southville-traffic-analysis/master/charts/chart5_flows.png"
+             alt="Dominant ANPR flows vs cross-zone"
+             loading="lazy">
+        <div class="caption">The cross-zone flow (6 vehicles) compared to the dominant corridor flows (3,600-5,600 vehicles).</div>
+    </div>
+</section>
+
+<!-- Download -->
+<section class="download">
+    <h2>Download the Full Report</h2>
+    <p>The complete analysis with all charts, maps, tables, and methodology is available as a PDF.<br>
+    All source code and data processing scripts are open source on GitHub.</p>
+    <div class="btn-group">
+        <a href="https://github.com/R3GENESI5/bristol-southville-traffic-analysis" class="btn btn-primary">
+            View on GitHub
+        </a>
+        <a href="https://raw.githubusercontent.com/R3GENESI5/bristol-southville-traffic-analysis/master/charts/chart_analysis_map.png" class="btn btn-secondary">
+            View Full Analysis Map
+        </a>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    <p>Analysis based on the publicly available "SBLN Traffic Survey Results 2024" dataset (94 spreadsheets).<br>
+    Survey conducted by Intelligent Data Collection Ltd (Project ID-0524-0183), commissioned by Bristol City Council.<br>
+    All calculations are reproducible from the original data sources.</p>
+    <p style="margin-top: 16px;">
+        <a href="https://github.com/R3GENESI5/bristol-southville-traffic-analysis">GitHub</a> &middot;
+        <a href="https://substack.com/home/post/p-192436024">Background (Substack)</a>
+    </p>
+</footer>
+
+</body>
+</html>
