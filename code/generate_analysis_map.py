@@ -15,7 +15,7 @@ import contextily as ctx
 import requests
 import time
 
-OUT = "D:/Projects/Bristol/charts"
+OUT = "D:/Projects/Bristol/media"
 
 DARK_BLUE  = "#1a365d"
 MID_BLUE   = "#2c5282"
@@ -167,7 +167,7 @@ for (orig, dest), route_pts in routes.items():
 
     if is_cutthrough:
         color = RED
-        lw = 4.5
+        lw = 1.5
         alpha = 1.0
         zorder = 8
     else:

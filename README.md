@@ -3,7 +3,7 @@
 **Author:** Ali Bin Shahid
 **Completed:** 1 April 2026
 
-![ANPR Traffic Flows](charts/chart12_flow_map.png)
+![ANPR Traffic Flows](code/charts/chart12_flow_map.png)
 
 ## Overview
 
@@ -33,13 +33,16 @@ The raw data is publicly available from Bristol City Council and is not included
 ## Repository Structure
 
 ```
-├── generate_all_charts.py      # Master chart generation (21 charts)
-├── generate_all_maps.py        # Sensor location maps (5 maps)
-├── generate_flow_map_routed.py # OSRM road-routed ANPR flow map
-├── generate_analysis_map.py    # Comprehensive analysis map (all layers)
-├── charts/                     # Generated chart images
-├── maps/                       # Sensor location maps (Matt Sanders)
-└── archive/old_code/           # Superseded scripts (kept for reference)
+├── SBLN_Traffic_Data_Analysis_Report_FULL_v7.pdf   # Full analysis report
+├── SBLN_Executive_Report.pdf                        # Executive summary
+├── code/
+│   ├── generate_all_charts.py      # Master chart generation
+│   ├── generate_all_maps.py        # Sensor location maps
+│   ├── generate_flow_map_routed.py # OSRM road-routed flow map
+│   ├── generate_analysis_map.py    # Comprehensive analysis map
+│   ├── charts/                     # Generated chart images
+│   └── maps/                       # Sensor location maps
+└── docs/                           # GitHub Pages site
 ```
 
 ## How to Reproduce
