@@ -1,6 +1,5 @@
-# Output reports (keep only executive report)
+# Internal documents (not for public repo)
 *.docx
-SBLN_Traffic_Data_Analysis_Report*.pdf
 SBLN_Internal_Working_Document*
 
 # Archive
