@@ -1,6 +1,6 @@
 # Independent Analysis of the SBLN 2024 Traffic Survey Data
 
-**Author:** Ali Bin Shahid, Volunteer Data Analyst & Systems Engineer
+**Author:** Ali Bin Shahid
 **Completed:** 1 April 2026
 
 ![ANPR Traffic Flows](charts/chart12_flow_map.png)
